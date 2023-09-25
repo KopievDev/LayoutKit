@@ -304,7 +304,7 @@ public extension LayoutKit {
     }
 
     func addSubview(_ view: UIView, edges: Edge...) {
-        if view.superview != self.view { addSubview(view) }
+        if view.superview != self.view { self.view.addSubview(view) }
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layout.pinTo(self.view, edges: edges)
     }
