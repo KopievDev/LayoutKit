@@ -313,6 +313,7 @@ public extension LayoutKit {
 
 public extension UIView {
     var layout: LayoutKit { LayoutKit(view: self) }
+    var lyt: LayoutKit { LayoutKit(view: self) }
 }
 
 public extension NSLayoutConstraint {
