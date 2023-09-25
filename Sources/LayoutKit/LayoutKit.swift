@@ -275,8 +275,7 @@ public extension LayoutKit {
 
     enum LayoutDimension { case width, height }
 
-    @discardableResult
-    func width(_ view: UIView, equalTo size: LayoutDimension, multiplier: CGFloat = 1, constant: CGFloat = 0) -> Self  {
+    func width(_ view: UIView, equalTo size: LayoutDimension, multiplier: CGFloat = 1, constant: CGFloat = 0)  {
         let mainView = self.view
         switch size {
         case .width:
@@ -288,11 +287,9 @@ public extension LayoutKit {
                                    multiplier: multiplier,
                                    constant: constant).isActive = true
         }
-        return self
     }
 
-    @discardableResult
-    func height(_ view: UIView, equalTo size: LayoutDimension, multiplier: CGFloat = 1, constant: CGFloat = 0) -> Self  {
+    func height(_ view: UIView, equalTo size: LayoutDimension, multiplier: CGFloat = 1, constant: CGFloat = 0)  {
         let mainView = self.view
         switch size {
         case .width:
@@ -304,7 +301,12 @@ public extension LayoutKit {
                                     multiplier: multiplier,
                                     constant: constant).isActive = true
         }
-        return self
+    }
+
+    func addSubview(_ view: UIView, edges: Edge...) {
+        if view.superview != self.view { addSubview(view) }
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.layout.pinTo(self.view, edges: edges)
     }
 
 }
