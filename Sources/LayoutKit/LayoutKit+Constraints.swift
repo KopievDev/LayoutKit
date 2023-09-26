@@ -7,7 +7,7 @@
 
 import UIKit
 
-extension LayoutKit {
+public extension LayoutKit {
 
     var layoutConstraintTop: NSLayoutConstraint? {
         guard let superview = view.superview else { return nil }
