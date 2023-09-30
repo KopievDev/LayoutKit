@@ -309,11 +309,116 @@ public extension LayoutKit {
         view.layout.pinTo(self.view, edges: edges)
     }
 
+    func addConstraint(width: CGFloat? = nil, height: CGFloat? = nil) {
+        if let width = width {
+            let constraint = view.widthAnchor.constraint(equalToConstant: width)
+            constraint.priority = UILayoutPriority(999)
+            constraint.isActive = true
+        }
+        if let height = height {
+            let constraint = view.heightAnchor.constraint(equalToConstant: height)
+            constraint.priority = UILayoutPriority(999)
+            constraint.isActive = true
+        }
+        guard view.constraints.count > 0 else { return }
+        view.addConstraints(view.constraints)
+    }
+
 }
 
 public extension UIView {
     var layout: LayoutKit { LayoutKit(view: self) }
     var lyt: LayoutKit { LayoutKit(view: self) }
+
+    @discardableResult
+    func size(width: CGFloat? = nil, height: CGFloat? = nil) -> Self {
+        lyt.addConstraint(width: width, height: height)
+        translatesAutoresizingMaskIntoConstraints = false
+        return self
+    }
+
+    @discardableResult
+    func cornerRadius(_ radius: CGFloat) -> Self {
+        layer.cornerRadius = radius
+        return self
+    }
+
+    @discardableResult
+    func backgroundColor(_ color: UIColor) -> Self {
+        backgroundColor = color
+        return self
+    }
+
+    @discardableResult
+    func alpha(_ alpha: CGFloat) -> Self {
+        self.alpha = alpha
+        return self
+    }
+
+    @discardableResult
+    func isHidden(_ hidden: Bool) -> Self {
+        self.isHidden = hidden
+        return self
+    }
+
+    @discardableResult
+    func tintColor(_ color: UIColor) -> Self {
+        self.tintColor = color
+        return self
+    }
+
+    @discardableResult
+    func frame(_ frame: CGRect) -> Self {
+        self.frame = frame
+        return self
+    }
+
+    @discardableResult
+    func withInteraction(_ enabled: Bool = true) -> Self {
+        isUserInteractionEnabled = enabled
+        return self
+    }
+
+    func asImage() -> UIImage {
+        UIGraphicsImageRenderer(bounds: bounds).image { layer.render(in: $0.cgContext) }
+    }
+
+
+    @discardableResult
+    func hugging(_ priority: Float = 1000, for axis: NSLayoutConstraint.Axis = .vertical) -> Self {
+        setContentHuggingPriority(UILayoutPriority(rawValue: priority), for: axis)
+        return self
+    }
+
+    @discardableResult
+    func resistance(_ priority: Float = 1000, for axis: NSLayoutConstraint.Axis = .vertical) -> Self {
+        setContentCompressionResistancePriority(UILayoutPriority(rawValue: priority), for: axis)
+        return self
+    }
+
+    @discardableResult
+    func borderColor(_ color: UIColor) -> Self {
+        layer.borderColor = color.cgColor
+        return self
+    }
+
+    @discardableResult
+    func bordeWidth(_ width: CGFloat) -> Self {
+        layer.borderWidth = width
+        return self
+    }
+
+    @discardableResult
+    func with(id: String) -> Self {
+        accessibilityIdentifier = id
+        return self
+    }
+    @discardableResult
+    func with(tag: Int) -> Self {
+        self.tag = tag
+        return self
+    }
+
 }
 
 public extension NSLayoutConstraint {
